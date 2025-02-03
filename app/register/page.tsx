@@ -1,14 +1,33 @@
-import React from 'react'
-import { Button } from "@/components/ui/button";
+"use client";
+import React, { use, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { FaFacebookF } from "react-icons/fa";
 import { CiTwitter } from "react-icons/ci";
 import { TiSocialGooglePlus } from "react-icons/ti";
 import Image from "next/image";
+import axios from "axios";
 const Register = () => {
+  const [name, Setname] = useState("");
+  const [password, SetPassword] = useState("");
+  const [Email, SetEmail] = useState("");
+  const Onfinish =  (e: any) => {
+    e.preventDefault();
+    try {
+      axios.post("https://6750968269dc1669ec1bb204.mockapi.io/ApiLoogin", {
+        name,
+        password,
+        Email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex gap-9 items-center justify-center">
-      <form className="w-[600px] h-[500px] border-[1px] rounded-lg p-[30px] flex items-center justify-center flex-col gap-7 boder-[solid] border-[grey]">
+      <form
+        onSubmit={Onfinish}
+        className="w-[600px] h-[500px] border-[1px] rounded-lg p-[30px] flex items-center justify-center flex-col gap-7 boder-[solid] border-[grey]"
+      >
         <p className="text-[24px] font-bold text-[#01579B]">
           Create Your Account
         </p>
@@ -23,13 +42,28 @@ const Register = () => {
             <TiSocialGooglePlus /> Google
           </span>
         </div>
-        <Input type="text" placeholder="Name" />
-        <Input type="password" placeholder="Password" />
-        <p className="flex text-[22px] font-medium items-center gap-2">
-          <Input type="checkbox" />
-          remember
-        </p>
-        <Button className="w-[80%] bg-[#03A9F4]">Continue</Button>
+        <Input
+          type="text"
+          onChange={(e) => Setname(e.target.value)}
+          placeholder="Name"
+        />
+        <Input
+          type="email"
+          onChange={(e) => SetEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <Input
+          type="password"
+          onChange={(e) => SetPassword(e.target.value)}
+          placeholder="Password"
+        />
+
+        <button
+          className="w-[80%] h-[45px] rounded-xl bg-[#03A9F4]"
+          type="submit"
+        >
+          Continue
+        </button>
       </form>
       <div className="flex items-center justify-center flex-col gap-6">
         <p className="text-[36px] font-bold text-[#01579B]">
@@ -42,6 +76,6 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Register
+export default Register;
